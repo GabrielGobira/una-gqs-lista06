@@ -1,0 +1,67 @@
+import java.util.Arrays;
+
+/**
+ * Implementação do algoritmo de ordenação QuickSort.
+ *
+ * Estratégia "divide e conquista":
+ * 1. Escolhe um elemento como pivô.
+ * 2. Particiona o array: menores que o pivô à esquerda, maiores à direita.
+ * 3. Aplica o mesmo processo recursivamente nas duas partições.
+ *
+ * Complexidade:
+ * - Caso médio: O(n log n)
+ * - Pior caso: O(n²) — ocorre quando o array já está ordenado
+ *   e o pivô escolhido é sempre o menor/maior elemento.
+ * - Espaço: O(log n) na pilha de recursão.
+ */
+public class QuickSort {
+
+    public static void sort(int[] array) {
+        if (array == null || array.length < 2) {
+            return;
+        }
+        quickSort(array, 0, array.length - 1);
+    }
+
+    private static void quickSort(int[] array, int inicio, int fim) {
+        if (inicio >= fim) {
+            return;
+        }
+
+        int posicaoPivo = particionar(array, inicio, fim);
+
+        quickSort(array, inicio, posicaoPivo - 1);
+        quickSort(array, posicaoPivo + 1, fim);
+    }
+
+    private static int particionar(int[] array, int inicio, int fim) {
+        int pivo = array[fim];
+        int i = inicio - 1;
+
+        for (int j = inicio; j < fim; j++) {
+            if (array[j] <= pivo) {
+                i++;
+                trocar(array, i, j);
+            }
+        }
+
+        trocar(array, i + 1, fim);
+        return i + 1;
+    }
+
+    private static void trocar(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] numeros = {9, 3, 7, 1, 8, 2, 5, 4, 6};
+
+        System.out.println("Array original: " + Arrays.toString(numeros));
+
+        sort(numeros);
+
+        System.out.println("Array ordenado: " + Arrays.toString(numeros));
+    }
+}
